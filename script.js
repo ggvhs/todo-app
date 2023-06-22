@@ -1,6 +1,14 @@
 const form = document.getElementById('form');
 const input = document.getElementById("input");
 const todoUL = document.getElementById('todos');
+const todos = JSON.parse(localStorage.getItem("todos"))
+
+if(todos){
+    todos.forEach(todo => {
+        addToDo(todo);
+        
+    });
+}
 
 
 
@@ -43,7 +51,27 @@ function addToDo(todo){
             e.preventDefault();
             //remove list item
 
-            todoEL.remove()
+            todoEL.remove();
+            updateLS()
         })
     }
+
+    updateLS()
+}
+
+
+function updateLS(){
+    const todosEL = document.querySelectorAll('li');
+
+    const todos = []
+
+    todosEL.forEach((todoEL) => {
+        todos.push({
+            text: todoEL.innerText,
+            completed: todoEL.classList.contains('completed')
+        })
+    })
+
+
+    localStorage.setItem("todos", JSON.stringify(todos))
 }
